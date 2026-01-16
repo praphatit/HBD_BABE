@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBD MY BABE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Mali:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-pink: #ff9a9e;
+            --deep-purple: #6a11cb;
+            --pastel-purple: #a18cd1;
+            --text-color: #5d4e6d;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Mali', cursive;
+            background: linear-gradient(120deg, #ff9a9e 0%, #fecfef 50%, #a18cd1 100%);
+            background-size: 200% 200%;
+            animation: gradientBG 10s ease infinite;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .shapes {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: floatShape 20s infinite linear;
+        }
+        @keyframes floatShape {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+            height: 90vh;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 2px solid rgba(255,255,255,0.5);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.5s ease-in-out, opacity 0.5s;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.9);
+        }
+
+        .page.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: scale(1);
+            z-index: 10;
+        }
+
+        h1, h2 { font-family: 'Kanit', sans-serif; text-align: center; }
+        
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff9a9e, #a18cd1);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Mali', cursive;
+            box-shadow: 0 5px 15px rgba(161, 140, 209, 0.4);
+            transition: transform 0.2s;
+            margin-top: 20px;
+            width: 80%;
+        }
+
+        .btn:active { transform: scale(0.95); }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+ 
+        .quiz-card {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .option-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 12px;
+            border-radius: 15px;
+            font-family: 'Mali';
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option-btn.correct { background: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .option-btn.wrong { background: #f8d7da; border-color: #f5c6cb; color: #721c24; animation: shake 0.5s; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .cake-container {
+            position: relative;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            width: 200px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .cake-body {
+            width: 200px;
+            height: 100px;
+            background: #f8a5c2;
+            border-radius: 10px 10px 5px 5px;
+            position: relative;
+            box-shadow: 0 5px 0 #e66767 inset;
+        }
+
+        .cake-body::before {
+            content: '';
+            position: absolute;
+            background: #fff;
+            width: 100%;
+            height: 30px;
+            top: 30px;
+            left: 0;
+            opacity: 0.5;
+        }
+
+        .candle {
+            width: 10px;
+            height: 40px;
+            background: repeating-linear-gradient(45deg, #fff, #fff 5px, #74b9ff 5px, #74b9ff 10px);
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+
+        .flame {
+            width: 15px;
+            height: 25px;
+            background: #ffce00;
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flameFlicker 0.5s infinite alternate;
+            box-shadow: 0 0 10px #ffce00, 0 0 20px #ff6b6b;
+            transform-origin: bottom center;
+        }
+
+        .flame.out {
+            display: none;
+        }
+
+        .smoke {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: rgba(200, 200, 200, 0.5);
+            border-radius: 50%;
+            display: none;
+            animation: smokeRise 1s forwards;
+        }
+
+        @keyframes flameFlicker {
+            0% { transform: translateX(-50%) scale(1); opacity: 1; }
+            100% { transform: translateX(-50%) scale(1.1) rotate(2deg); opacity: 0.9; }
+        }
+
+        @keyframes smokeRise {
+            0% { opacity: 0.8; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-30px) scale(2); }
+        }
+
+        #wish-input {
+            width: 80%;
+            padding: 10px;
+            border: 2px solid var(--pastel-purple);
+            border-radius: 15px;
+            font-family: 'Mali', cursive;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .scroll-content {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding-bottom: 50px;
+            scrollbar-width: none;
+        }
+        .scroll-content::-webkit-scrollbar { display: none; }
+
+        .polaroid {
+            background: white;
+            padding: 10px 10px 30px 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transform: rotate(-3deg);
+            margin: 20px auto;
+            width: 90%;
+            text-align: center;
+            border-radius: 2px;
+        }
+        .polaroid img { width: 100%; border-radius: 2px; }
+        .polaroid:nth-child(even) { transform: rotate(3deg); }
+
+        .letter-paper {
+            background: #fffdf0;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            line-height: 1.8;
+            font-size: 1rem;
+            text-align: left;
+            position: relative;
+        }
+        .letter-paper::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 20px; bottom: 0;
+            width: 2px;
+            background: #ffcccc;
+        }
+
+        /* --- Music Player --- */
+        .music-player {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            color: var(--primary-pink);
+        }
+        .music-note-anim { animation: spin 3s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        #confetti { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
+
+    </style>
+</head>
+<body>
+
+    <div class="shapes" id="shapes-container"></div>
+    <canvas id="confetti"></canvas>
+
+    <div class="app-container">
+        <div class="music-player" onclick="toggleMusic()">
+            <i class="fas fa-music" id="music-icon"></i>
+        </div>
+        <audio id="bg-music" loop>
+            <source src="รักแรกพบ.mp3" type="audio/mpeg">
+        </audio>
+
+        <div class="page active" id="page-intro">
+            <h1 style="font-size: 3.5rem; color: white; text-shadow: 2px 2px 0 var(--primary-pink);">HBD!</h1>
+            <h2 style="color: white; margin-bottom: 30px;">Are you ready?</h2>
+            <div style="font-size: 5rem;">🎁</div>
+            <p style="margin: 20px; text-align: center; color: white;">มีคนส่งของขวัญมาให้<br>แต่ต้องผ่านด่านทดสอบก่อนนะ!</p>
+            <button class="btn" onclick="goToPage('page-game')">เริ่มเกมเลย! 🎮</button>
+        </div>
+
+        <div class="page" id="page-game">
+            <h2 style="margin-bottom: 20px;">Quiz Time! ⏳</h2>
+            <div class="quiz-card">
+                <div style="font-size: 3rem; margin-bottom: 10px;">🤔</div>
+                <h3 id="question-text" style="color: var(--deep-purple);">คำถาม...</h3>
+                <div class="quiz-options" id="options-container">
+                </div>
+            </div>
+            <p id="game-status" style="margin-top: 20px; font-size: 0.9rem; color: #666;">ตอบถูกเพื่อไปต่อ...</p>
+        </div>
+
+        <div class="page" id="page-cake">
+            <h2 id="cake-title">Make a Wish! ✨</h2>
+            
+            <div class="cake-container">
+                <div class="cake-body"></div>
+                <div class="candle">
+                    <div class="flame" id="flame"></div>
+                    <div class="smoke" id="smoke"></div>
+                </div>
+            </div>
+
+            <div id="wish-step-1">
+                <p style="margin-bottom: 10px;">พิมพ์คำอธิษฐานก่อนเป่าเทียน:</p>
+                <input type="text" id="wish-input" placeholder="ขอให้ปีนี้...">
+                <button class="btn" onclick="prepareToBlow()">อธิษฐาน 🙏</button>
+            </div>
+
+            <div id="wish-step-2" style="display: none; text-align: center;">
+                <p style="font-size: 1.2rem; color: var(--deep-purple);">เป่าที่ไมค์แรงๆ เพื่อดับเทียน!</p>
+                <p style="font-size: 3rem;">🎤 💨</p>
+                <p id="mic-status" style="font-size: 0.8rem; color: #666;">(กำลังฟังเสียง...)</p>
+                
+                <button class="btn" onclick="finishCake()" style="margin-top: 20px; font-size: 1rem; padding: 10px 20px; background: #ccc;">
+                    เป่าไม่ได้? กดตรงนี้
+                </button>
+            </div>
+        </div>
+
+        <div class="page" id="page-surprise">
+            <div class="scroll-content">
+                <div style="text-align: center; padding-top: 40px;">
+                    <h1 style="color: var(--deep-purple);">Happy Birthday!</h1>
+                    <h2 style="color: var(--primary-pink);">SATANG</h2>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <img src="you.jpg" class="profile-img">
+                </div>
+
+                <div class="polaroid">
+                    <img src="metoo.jpg" alt="Memory 1">
+                    <p style="margin-top: 10px;">ความทรงจำดีๆ ✨</p>
+                </div>
+                <div class="polaroid">
+                    <img src="BC.jpg" alt="Memory 2">
+                    <p style="margin-top: 10px;">ปีนี้ขอให้ปังๆ 🎉</p>
+                </div>
+                <div class="polaroid">
+                    <img src="" alt="">
+                    <p style="margin-top: 10px;">เจ๊ค้าบบบบบบ สนใจรับเด็กสักคนมั้ยค้าบ 🎉</p>
+                </div>
+
+                <div class="letter-paper">
+                    <p><strong>ถึง พี่สตางค์ 💌</strong></p>
+                    <br>
+                    <p>สุขสันต์วันเกิดนะ! ยินดีต้อนรับเข้าสู่อายุ 23 อย่างเป็นทางการ 🎂</p>
+                    <p id="user-wish-display" style="color: var(--primary-pink); font-weight: bold; font-style: italic;"> </p>
+                    <p>ปีนี้โตขึ้นอีกปีแล้ว ขอให้เป็นปีที่ใจดีกับแกมากๆ นะ ขอให้สุขภาพแข็งแรง ไม่ปวดหลัง ไม่ปวดคอ (สำคัญมาก 555)</p>
+                    <p>ไม่ว่าจะเจอเรื่องอะไร ขอให้ผ่านไปได้ด้วยดี มีแต่รอยยิ้มเสียงหัวเราะนะ เป็นเฟื่อนที่น่ารักแบบนี้ไปนานๆ รักนะครับ💝</p>
+                    <br>
+                    <p style="text-align: right;"><strong>- จากเด็กเปรตของคุณ -</strong></p>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <button class="btn" onclick="restart()">เล่นอีกรอบ 🔄</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const shapesContainer = document.getElementById('shapes-container');
+        for(let i=0; i<15; i++) {
+            const div = document.createElement('div');
+            div.classList.add('shape');
+            div.style.width = Math.random() * 100 + 20 + 'px';
+            div.style.height = div.style.width;
+            div.style.left = Math.random() * 100 + '%';
+            div.style.animationDuration = Math.random() * 10 + 10 + 's';
+            div.style.animationDelay = Math.random() * 5 + 's';
+            shapesContainer.appendChild(div);
+        }
+
+        const questions = [
+            {
+                q: "จริงๆ แล้วเจ้าของวันเกิดชื่อจริงชื่ออะไร?",
+                options: ["เขมจิรา", "เขมรัตน์", "เข็มทิศ", "เขมนิจ"],
+                correct: 1
+            },
+            {
+                q: "วันเกิดของสตางค์คือวันที่เท่าไหร่?",
+                options: ["14 กุมภา", "7 มกรา", "16 มกรา", "25 ธันวา"],
+                correct: 2
+            },
+            {
+                q: "ปีนี้สตางค์อายุครบกี่ขวบแล้ว?",
+                options: ["20 ใสๆ", "22 เอง", "23 แล้วจ้า", "25 เป็นสาวแล้ว"],
+                correct: 2
+            },
+            {
+                q: "ใครหน้าตาดีที่สุดในโลก?",
+                options: ["สตางค์ (Satang)", "น้องพัฒ", "น้องสตางค์", "ถูกทุกข้อ"],
+                correct: 3 
+            }
+        ];
+
+        let currentQIndex = 0;
+
+        function renderQuestion() {
+            const q = questions[currentQIndex];
+            document.getElementById('question-text').innerText = q.q;
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(btn, index, q.correct);
+                container.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(btn, selectedIndex, correctIndex) {
+            if (selectedIndex === correctIndex) {
+                btn.classList.add('correct');
+                playSound('correct');
+                setTimeout(() => {
+                    currentQIndex++;
+                    if(currentQIndex < questions.length) {
+                        renderQuestion();
+                    } else {
+                        goToPage('page-cake');
+                    }
+                }, 800);
+            } else {
+                btn.classList.add('wrong');
+                playSound('wrong');
+                setTimeout(() => btn.classList.remove('wrong'), 500);
+            }
+        }
+
+        let audioContext, analyser, dataArray, microphone;
+        let isBlowing = false;
+
+        function prepareToBlow() {
+            const wishText = document.getElementById('wish-input').value;
+            if(!wishText.trim()) {
+                alert("พิมพ์คำอธิษฐานก่อนสิ!");
+                return;
+            }
+            document.getElementById('user-wish-display').innerText = `"${wishText}" (สาธุ 99)`;
+            
+            document.getElementById('wish-step-1').style.display = 'none';
+            document.getElementById('wish-step-2').style.display = 'block';
+            document.getElementById('cake-title').innerText = "Blow the Candle!";
+
+            initMicrophone();
+        }
+
+        async function initMicrophone() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                microphone = audioContext.createMediaStreamSource(stream);
+                microphone.connect(analyser);
+                
+                analyser.fftSize = 256;
+                const bufferLength = analyser.frequencyBinCount;
+                dataArray = new Uint8Array(bufferLength);
+                
+                isBlowing = true;
+                detectBlow();
+            } catch (err) {
+                console.error("Mic Error:", err);
+                document.getElementById('mic-status').innerText = "(ไม่สามารถใช้ไมค์ได้ กดปุ่มข้างล่างแทนนะ)";
+            }
+        }
+
+        function detectBlow() {
+            if (!isBlowing) return;
+            requestAnimationFrame(detectBlow);
+            
+            analyser.getByteFrequencyData(dataArray);
+            let sum = 0;
+            for(let i = 0; i < dataArray.length; i++) {
+                sum += dataArray[i];
+            }
+            let average = sum / dataArray.length;
+
+            if (average > 50) {
+                finishCake();
+            }
+        }
+
+        function finishCake() {
+            if (!isBlowing) return;
+            isBlowing = false;
+
+            if (audioContext && audioContext.state !== 'closed') {
+                audioContext.close();
+            }
+
+            document.getElementById('flame').classList.add('out');
+            document.getElementById('smoke').style.display = 'block';
+            playSound('correct'); 
+
+            setTimeout(() => {
+                goToPage('page-surprise');
+                celebrate(); 
+            }, 2000);
+        }
+
+        function goToPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            if(pageId === 'page-game') {
+                renderQuestion();
+                const audio = document.getElementById('bg-music');
+                if(audio.paused) toggleMusic();
+            }
+        }
+
+        function restart() {
+            currentQIndex = 0;
+            document.getElementById('flame').classList.remove('out');
+            document.getElementById('smoke').style.display = 'none';
+            document.getElementById('wish-step-1').style.display = 'block';
+            document.getElementById('wish-step-2').style.display = 'none';
+            document.getElementById('wish-input').value = '';
+            isBlowing = true;
+            
+            goToPage('page-intro');
+        }
+
+        const bgMusic = document.getElementById('bg-music');
+        let isMusicPlaying = false;
+
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                document.getElementById('music-icon').classList.remove('music-note-anim');
+                document.getElementById('music-icon').className = 'fas fa-music';
+            } else {
+                bgMusic.volume = 0.5;
+                bgMusic.play().catch(e => alert("กดหน้าจอเพื่อเล่นเพลง"));
+                document.getElementById('music-icon').classList.add('music-note-anim');
+                document.getElementById('music-icon').className = 'fas fa-compact-disc';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.5);
+            } else {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+
+        const canvas = document.getElementById('confetti');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particles = [];
+
+        function celebrate() {
+            particles = [];
+            for(let i=0; i<150; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    color: `hsl(${Math.random()*360}, 100%, 70%)`,
+                    size: Math.random() * 8 + 2,
+                    speed: Math.random() * 5 + 2,
+                    angle: Math.random() * 360
+                });
+            }
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            let active = false;
+            particles.forEach(p => {
+                p.y += p.speed;
+                p.angle += 2;
+                ctx.fillStyle = p.color;
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.angle * Math.PI / 180);
+                ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                ctx.restore();
+                if(p.y < canvas.height) active = true;
+            });
+            if(active) requestAnimationFrame(animateConfetti);
+        }
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+    </script>
+</body>
+</html>
